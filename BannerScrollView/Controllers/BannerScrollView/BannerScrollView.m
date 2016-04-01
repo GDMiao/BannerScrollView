@@ -32,15 +32,19 @@
 
 }
 @property (strong, nonatomic) NSArray *imageArray;
+@property (strong, nonatomic) NSArray *imageData;
+//@property (strong, nonatomic) UIImageView *leftImageView,*centerImageView,*rightImageView;
 @end
 
 @implementation BannerScrollView
 {
-    UIImageView *_leftImageView,*_centerImageView,*_rightImageView;
     
-    UIScrollView *_scrollView;
     
-    UIPageControl *_PageControl;
+    __weak  UIImageView *_leftImageView,*_centerImageView,*_rightImageView;
+    
+    __weak  UIScrollView *_scrollView;
+    
+    __weak  UIPageControl *_PageControl;
     
     NSTimer *_timer;
     
@@ -122,6 +126,7 @@
     /** 初始化图片位置*/
     [self changeImageLeft:_MaxImageCount-1 center:0 right:1];
 }
+
 
 - (void)createScrollView
 {

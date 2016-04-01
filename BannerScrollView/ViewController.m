@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "BannerScrollView.h"
+#import "UIImageView+WebCache.h"
 @interface ViewController ()<BannerScrollNetDelegate,BannerScrollLocalDelegate>
 /** 网络图片数组*/
 @property(nonatomic,strong)NSArray *NetImageArray;
@@ -21,7 +22,7 @@
 {
     if(!_NetImageArray)
     {
-        _NetImageArray = @[@"http://img5.imgtn.bdimg.com/it/u=1461548553,1813760294&fm=21&gp=0.jpg",@"http://img2.imgtn.bdimg.com/it/u=810896649,3751303857&fm=21&gp=0.jpg",@"http://img1.imgtn.bdimg.com/it/u=3275068450,2518427269&fm=21&gp=0.jpg",@"http://img0.imgtn.bdimg.com/it/u=2536162506,232284120&fm=21&gp=0.jpg",@"http://img1.imgtn.bdimg.com/it/u=2380685152,4276108135&fm=21&gp=0.jpg"];
+        _NetImageArray = @[@"http://pic2.ooopic.com/10/57/50/93b1OOOPIC4d.jpg",@"http://pic2.ooopic.com/10/55/16/14b1OOOPIC4d.jpg",@"http://pic2.ooopic.com/10/78/82/94b1OOOPIC84.jpg",@"http://pic2.ooopic.com/10/78/93/40b1OOOPIC59.jpg"];
     }
     return _NetImageArray;
 }
@@ -38,9 +39,11 @@
     [super viewDidLoad];
     
     
+    
+    
     /** 创建网络滚动视图*/
     [self createNetScrollView];
-    
+//
     /** 创建本地滚动视图*/
     [self createLocalScrollView];
     // Do any additional setup after loading the view, typically from a nib.
@@ -49,7 +52,7 @@
 -(void)createNetScrollView
 {
     /** 设置网络scrollView的Frame及所需图片*/
-    BannerScrollView *NetScrollView = [[BannerScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) WithNetImages:self.NetImageArray];
+    BannerScrollView *NetScrollView = [[BannerScrollView alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 200) WithNetImages:self.NetImageArray];
     
     /** 设置滚动延时*/
     NetScrollView.AutoScrollDelay = 3;
@@ -69,7 +72,7 @@
 -(void)createLocalScrollView
 {
     /** 设置本地scrollView的Frame及所需图片*/
-    BannerScrollView *LocalScrollView = [[BannerScrollView alloc]initWithFrame:CGRectMake(0, 220, self.view.frame.size.width, 200) WithLocalImages:self.localImageArray];
+    BannerScrollView *LocalScrollView = [[BannerScrollView alloc]initWithFrame:CGRectMake(0, 240, self.view.frame.size.width, 200) WithLocalImages:self.localImageArray];
     
     /** 设置滚动延时*/
     LocalScrollView.AutoScrollDelay = 2;
@@ -77,6 +80,8 @@
     /** 获取本地图片的index*/
     LocalScrollView.localDelagate = self;
     
+    /** 设置占位图*/
+    LocalScrollView.placeholderImage = [UIImage imageNamed:@"placeholderImage"];
     /** 添加到当前View上*/
     [self.view addSubview:LocalScrollView];
 }
