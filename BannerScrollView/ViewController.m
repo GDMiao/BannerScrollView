@@ -64,6 +64,10 @@
     /** 获取网络图片的index*/
     NetScrollView.netDelagate = self;
     
+    NetScrollView.pageIndicatorColor = [UIColor redColor];
+    NetScrollView.currentPageIndicatorColor = [UIColor yellowColor];
+    NetScrollView.pagestyle = pageRight;
+    
     /** 添加到当前View上*/
     [self.view addSubview:NetScrollView];
     
