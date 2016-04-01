@@ -51,9 +51,6 @@ typedef enum{
 /** 滚动延时*/
 @property (nonatomic, assign) NSTimeInterval AutoScrollDelay;
 
-/** pageIndicatorTintColor*/
-@property (nonatomic, strong) UIColor *pageIndicatorColor;
-@property (nonatomic, strong) UIColor *currentPageIndicatorColor;
 /**
  *  本地图片
  *
@@ -73,6 +70,4 @@ typedef enum{
  *  @return
  */
 - (instancetype) initWithFrame:(CGRect)frame WithNetImages:(NSArray *)imageArray;
-
-- (void)setPageIndicatorColor:(UIColor *)pageIndicatorColor;
 @end

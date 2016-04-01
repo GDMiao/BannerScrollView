@@ -9,7 +9,7 @@
 #import "BannerScrollView.h"
 #import "UIImageView+WebCache.h"
 
-#define pageSize (ScrollHeight * 0.2 > 25 ? 25 : ScrollHeight * 0.2)
+#define pageSize 16
 
 //获得RGB颜色
 #define RGBA(r, g, b, a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
@@ -32,17 +32,19 @@
 
 }
 @property (strong, nonatomic) NSArray *imageArray;
-@property (strong, nonatomic) UIImageView *leftImageView,*centerImageView,*rightImageView;
-
+@property (strong, nonatomic) NSArray *imageData;
+//@property (strong, nonatomic) UIImageView *leftImageView,*centerImageView,*rightImageView;
 @end
 
 @implementation BannerScrollView
 {
     
     
-    UIScrollView *_scrollView;
+    __weak  UIImageView *_leftImageView,*_centerImageView,*_rightImageView;
     
-    UIPageControl *_PageControl;
+    __weak  UIScrollView *_scrollView;
+    
+    __weak  UIPageControl *_PageControl;
     
     NSTimer *_timer;
     
@@ -55,23 +57,7 @@
     /** 是否是网络图片*/
     BOOL _isNetworkImage;
 }
-@synthesize currentPageIndicatorColor,pageIndicatorColor;
-- (void)dealloc
-{
-    self.imageArray = nil;
-    self.placeholderImage = nil;
-    _timer = nil;
-    _scrollView = nil;
-    _PageControl = nil;
-    self.leftImageView = nil;
-    self.centerImageView = nil;
-    self.rightImageView = nil;
-    self.pageIndicatorColor = nil;
-    self.currentPageIndicatorColor = nil;
-    [self removeTimer];
-    
-    
-}
+
 #pragma mark - 本地图片
 
 -(instancetype)initWithFrame:(CGRect)frame WithLocalImages:(NSArray *)imageArray
@@ -207,12 +193,12 @@
 
 -(void)createPageControl
 {
-    UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0,ScrollHeight - pageSize,ScrollWidth, 7)];
+    UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0,ScrollHeight - pageSize,ScrollWidth, 8)];
     
     //设置页面指示器的颜色
-    pageControl.pageIndicatorTintColor = self.pageIndicatorColor;
+    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
     //设置当前页面指示器的颜色
-    pageControl.currentPageIndicatorTintColor = self.currentPageIndicatorColor;
+    pageControl.currentPageIndicatorTintColor = pageColor;
     pageControl.numberOfPages = _MaxImageCount;
     pageControl.currentPage = 0;
     
@@ -221,26 +207,6 @@
     _PageControl = pageControl;
 }
 
-- (void)setPagestyle:(PageStyle)pagestyle
-{
-    CGFloat w = _MaxImageCount * 17.5;
-    _PageControl.frame = CGRectMake(0, 0, w, 7);
-    
-    if (pagestyle == pageRight) {
-        _PageControl.center = CGPointMake(ScrollWidth-w*0.5, ScrollHeight-pageSize * 0.5);
-    }else if(pagestyle == pageCenter) {
-        _PageControl.center = CGPointMake(ScrollWidth * 0.5,ScrollHeight-pageSize * 0.5);
-    }
-}
-- (void)setPageIndicatorColor:(UIColor *)pageIndicatorColor
-{
-    _PageControl.pageIndicatorTintColor = pageIndicatorColor;
-}
-
-- (void)setCurrentPageIndicatorColor:(UIColor *)currentPageIndicatorColor
-{
-    _PageControl.currentPageIndicatorTintColor = currentPageIndicatorColor;
-}
 #pragma mark - 定时器
 
 - (void)setUpTimer
@@ -348,7 +314,10 @@
     }
 }
 
-
+-(void)dealloc
+{
+    [self removeTimer];
+}
 
 #pragma mark - set方法，设置间隔时间
 
